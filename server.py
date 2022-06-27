@@ -6,6 +6,7 @@ if len(sys.argv) > 1 and sys.argv[1].isdigit():
     PORT = int(sys.argv[1])
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    print(f"Binding {socket.gethostbyname(socket.getfqdn())} on port {PORT}")
     s.bind((HOST, PORT))
     s.listen()
     conn, addr = s.accept()
