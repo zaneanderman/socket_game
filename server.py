@@ -1,6 +1,6 @@
 import socket
 import sys
-HOST = "0.0.0.0"
+HOST = socket.gethostname()
 PORT = 32752
 if len(sys.argv) > 1 and sys.argv[1].isdigit():
     PORT = int(sys.argv[1])

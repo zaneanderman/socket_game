@@ -1,6 +1,6 @@
 import socket
 import sys
-HOST = "192.168.122.1"
+HOST = "pheonix"
 PORT = 32752
 if len(sys.argv) > 1 and sys.argv[1].isdigit():
     PORT = int(sys.argv[1])
