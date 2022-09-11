@@ -22,7 +22,7 @@ burrito_right = pyglet.image.load("sprites/burrito_right.png")
 burrito_left = pyglet.image.load("sprites/burrito_left.png")
 
 gravity = 0.5
-friction = 0.1
+friction = 0.15
 percent_per_hit = 3
 
 class State():
@@ -50,6 +50,7 @@ class Player(pyglet.sprite.Sprite):
         self.held_up_last_frame = False
         self.double_jump = True
         self.attackcooldown = 0
+        self.teleportcooldown = 0
         self.times_hit = 0
 
 class AttackBox(pyglet.shapes.Rectangle):
@@ -178,16 +179,29 @@ def update(dt): #code from Multiplayer Duck
 
         if player.keys[pyglet.window.key.Z] and player.attackcooldown <= 0:
             player.attackcooldown = 30
-            if player.keys[pyglet.window.key.LEFT]:
+            if player.keys[pyglet.window.key.UP]:
+                attack_rect = AttackBox(player, other_player, -5, player.height+5, 10+player.width, 5)
+            elif player.keys[pyglet.window.key.DOWN]:
+                attack_rect = AttackBox(player, other_player, -10, -30, 20+player.width, 30)
+            elif player.keys[pyglet.window.key.LEFT]:
                 attack_rect = AttackBox(player, other_player, -20, player.height-20, 20, 10)
             elif player.keys[pyglet.window.key.RIGHT]:
                 attack_rect = AttackBox(player, other_player, player.width, player.height-20, 20, 10)
-            elif player.keys[pyglet.window.key.UP]:
-                attack_rect = AttackBox(player, other_player, -5, player.height+5, 10+player.width, 5)
             else:
                 attack_rect = AttackBox(player, other_player, 0, 0, player.width, player.height)
             state.projectiles.append(attack_rect)
+        if player.keys[pyglet.window.key.X] and player.teleportcooldown <= 0:
+            player.teleportcooldown = 90
+            if player.keys[pyglet.window.key.UP]:
+                player.y += 40
+            if player.keys[pyglet.window.key.DOWN]:
+                player.y -= 40
+            if player.keys[pyglet.window.key.LEFT]:
+                player.x -= 40
+            if player.keys[pyglet.window.key.RIGHT]:
+                player.x += 40
 
+        player.teleportcooldown -= 1
         player.attackcooldown -= 1
         if player.on_ground:
             if player.vx < 0:
