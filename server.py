@@ -21,7 +21,7 @@ screen.push_handlers(keys)
 burrito_right = pyglet.image.load("sprites/burrito_right.png")
 burrito_left = pyglet.image.load("sprites/burrito_left.png")
 
-gravity = 0.7
+gravity = 0.5
 friction = 0.1
 percent_per_hit = 3
 
@@ -139,7 +139,7 @@ def update(dt): #code from Multiplayer Duck
                     if isfalling:
                         player.y = platform.y + platform.height
                         player.on_ground = True
-                        player.doublejump = True
+                        player.double_jump = True
                         player.vy = 0
                     else:
                         player.y = platform.y - player.height
