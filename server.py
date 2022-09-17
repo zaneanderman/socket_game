@@ -36,6 +36,7 @@ class State():
         self.client_sprites_lock = threading.Lock()
         self.player1 = Player(burrito_right, 200, 300)
         self.player2 = Player(burrito_left, 300, 300)
+        self.left_image = self.player2.image #This is not the same as burrito_left
         self.player1.keys = keys
         self.player2.keys = defaultdict(lambda:False)
 
@@ -193,13 +194,13 @@ def update(dt): #code from Multiplayer Duck
         if player.keys[pyglet.window.key.X] and player.teleportcooldown <= 0:
             player.teleportcooldown = 90
             if player.keys[pyglet.window.key.UP]:
-                player.y += 40
+                player.y += 120
             if player.keys[pyglet.window.key.DOWN]:
-                player.y -= 40
+                player.y -= 120
             if player.keys[pyglet.window.key.LEFT]:
-                player.x -= 40
+                player.x -= 120
             if player.keys[pyglet.window.key.RIGHT]:
-                player.x += 40
+                player.x += 120
 
         player.teleportcooldown -= 1
         player.attackcooldown -= 1
@@ -237,7 +238,7 @@ def on_draw():
     state.client_sprites_lock.acquire()
     state.client_sprites = ""
     for sprite in state.player1, state.player2:
-        if sprite.image == burrito_left:
+        if sprite.image == state.left_image:
             state.client_sprites += f"0 {sprite.x} {sprite.y},"
         else:
             state.client_sprites += f"1 {sprite.x} {sprite.y},"

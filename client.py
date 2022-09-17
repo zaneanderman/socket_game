@@ -46,7 +46,6 @@ def recieve_message(s):
     data = b""
     while True:
         data += s.recv(1024)
-        print(data)
         if (b" "+data)[-1:] == b";": #space added on the back to insure no indexerror
             break
     return data[:-1] #remove semicolon for convenience
@@ -60,8 +59,6 @@ def update(dt):
         if keys[key]:
             data += str(key)+","
     data = data[:-1]+";"
-    print(data)
-    print(keys)
     s.sendall(data.encode("utf-8"))
     response = recieve_message(s)
     images = parse_response(response)
